@@ -1,0 +1,31 @@
+# macOS host-only aliases (paths that do not exist in the dev container).
+# Sourced from ~/.zshrc; not mounted into the container.
+
+
+alias geo="cd ~/claude-workspace/geoart/app"
+alias bsc="cd ~/git-workspace/blacksheepcode2"
+alias tjjs="cd /Users/davidjohnston/claude-workspace/tj-js"
+alias tjnojs="cd /Users/davidjohnston/claude-workspace/tj-nojs"
+
+
+# Symlink the .code-snippets files kept alongside this script into VS Code's user
+# snippets dir, so they load in every window rather than only in windows that
+# include this repo. Silent no-op when there is nothing to link.
+_link_vscode_snippets() {
+  local root="${${(%):-%x}:A:h}"
+  local dir="$HOME/Library/Application Support/Code/User/snippets"
+  local src dest
+
+  for src in "$root"/.vscode/*.code-snippets(N); do
+    dest="$dir/${src:t}"
+    if [[ -L "$dest" ]]; then
+      [[ "$(readlink "$dest")" == "$src" ]] && continue
+    elif [[ -e "$dest" ]]; then
+      continue  # real file with the same name: leave the user's copy alone
+    fi
+    mkdir -p "$dir" && ln -sfn "$src" "$dest"
+  done
+}
+
+_link_vscode_snippets
+

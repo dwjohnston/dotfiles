@@ -1,0 +1,41 @@
+# Portable shell aliases and functions, shared with the dev container.
+# Sourced from ~/.zshrc on the host; mounted into the container by the meta-repo
+# (see `dotfiles` in meta-repo.local.yaml). Keep it free of host-specific
+# paths and secrets.
+
+export EDITOR=nano
+export VISUAL="$EDITOR"
+
+
+
+
+alias gbl="git branch --list"
+alias nrd="npm run dev"
+alias gpf="git push --force-with-lease"
+alias coffee="caffeinate -dis"
+alias sourcez="source ~/.zshrc"
+
+env -u SSH_AUTH_SOCK
+
+# Check out a branch and hard-reset it to origin (asks first if there are
+# uncommitted changes).
+_git_reset_to_origin() {
+  local branch=$1
+  git checkout "$branch" || return 1
+  git fetch origin
+
+  if ! git diff --quiet || ! git diff --cached --quiet; then
+    echo "⚠️  Uncommitted changes on $branch:"
+    git status --short
+    echo -n "Reset to origin/$branch anyway? [y/N] "
+    read ans
+    [[ "$ans" =~ ^[Yy]$ ]] || return 1
+  fi
+
+  git reset --hard "origin/$branch"
+}
+
+grm() { _git_reset_to_origin main; }
+grmm() { _git_reset_to_origin master; }
+
+
