@@ -21,5 +21,9 @@ PATH_TO_DOTFILES=/Users/davidjohnston/git-workspace/dotfiles
     - Aliases that only apply on the host
     - Also links `.vscode/*.code-snippets` into VS Code's user snippets folder, so
       snippets like `skill.code-snippets` load in every workspace, not just windows
-      that include this repo (a no-op if the file or folder is missing) 
+      that include this repo (a no-op if the file or folder is missing)
+- **.vscode/settings.json**
+    - Reference VS Code user settings (e.g. `window.restoreWindows: none` so VS Code
+      doesn't reopen all windows on start). Not linked automatically: copy the
+      settings into your user settings by hand 
 
