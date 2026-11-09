@@ -8,5 +8,21 @@
       "---"
     ],
     "description": "Insert skill Markdown frontmatter"
+  },
+  "Blacksheepcode frontmatter": {
+    "prefix": "bsc",
+    "body": [
+      "---",
+      "meta:",
+      "  title:  ${1:title} ",
+      "  description: ${2:description}",
+      "  dateCreated: ${3:2024-08-19}",
+      "  image: ${4:mitm}",
+      "",
+      "tags: ",
+      "  - \"${5:nextjs}\"",
+      "---"
+    ],
+    "description": "Insert blacksheepcode post frontmatter"
   }
 }

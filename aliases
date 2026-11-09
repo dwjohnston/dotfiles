@@ -15,8 +15,6 @@ alias gpf="git push --force-with-lease"
 alias coffee="caffeinate -dis"
 alias sourcez="source ~/.zshrc"
 
-env -u SSH_AUTH_SOCK
-
 # Check out a branch and hard-reset it to origin (asks first if there are
 # uncommitted changes).
 _git_reset_to_origin() {
