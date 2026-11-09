@@ -13,7 +13,27 @@ alias gbl="git branch --list"
 alias nrd="npm run dev"
 alias gpf="git push --force-with-lease"
 alias coffee="caffeinate -dis"
-alias sourcez="source ~/.zshrc"
+alias sourcez="source ~/.zshrc && source ~/.zshenv"
+alias dps="docker ps"
+
+# Open a shell in a running container: `dssh 1` (nth row of `dps`) or `dssh <container id/name>`.
+dssh() {
+  local target=$1
+  if [ -z "$target" ]; then
+    echo "usage: dssh <n | container id | name>" >&2
+    return 1
+  fi
+  if [[ "$target" =~ ^[0-9]+$ ]] && [ "$target" -le 999 ]; then
+    local id
+    id=$(docker ps -q | sed -n "${target}p")
+    if [ -z "$id" ]; then
+      echo "dssh: no running container #$target" >&2
+      return 1
+    fi
+    target=$id
+  fi
+  docker exec -it "$target" bash 2>/dev/null || docker exec -it "$target" sh
+}
 
 # Check out a branch and hard-reset it to origin (asks first if there are
 # uncommitted changes).
